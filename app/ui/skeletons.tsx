@@ -12,7 +12,7 @@ export function CardSkeleton() {
         <div className="ml-2 h-6 w-16 rounded-md bg-gray-200 text-sm font-medium" />
       </div>
       <div className="flex items-center justify-center truncate rounded-xl bg-white px-4 py-8">
-        <div className="h-7 w-20 rounded-md bg-gray-200" />
+         <div className="h-7 w-20 rounded-md bg-gray-200" />
       </div>
     </div>
   );
@@ -216,3 +216,90 @@ export function InvoicesTableSkeleton() {
     </div>
   );
 }
+export function CustomersTableSkeleton(){
+  return (
+   
+      <div className="mt-6 flow-root">
+        <div className="overflow-x-auto">
+          <div className="inline-block min-w-full align-middle">
+            <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
+              <div className="md:hidden">
+               
+                  <div
+                    key=''
+                    className="mb-2 w-full rounded-md bg-white p-4"
+                  >
+                    <div className="flex items-center justify-between border-b pb-4">
+                      <div>
+                        <div className="mb-2 flex items-center">
+                          <div className="flex items-center gap-3">
+                            {/* <Image
+                              src=''
+                              className="rounded-full"
+                              alt=''
+                              width={28}
+                              height={28}
+                            /> */}
+                            <p></p>
+                          </div>
+                        </div>
+                        <p className="text-sm text-gray-500">
+                        
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex w-full items-center justify-between border-b py-5">
+                      <div className="flex w-1/2 flex-col">
+                        <p className="text-xs"></p>
+                        <p className="font-medium"></p>
+                      </div>
+                      <div className="flex w-1/2 flex-col">
+                        <p className="text-xs"></p>
+                        <p className="font-medium"></p>
+                      </div>
+                    </div>
+                    <div className="pt-4 text-sm">
+                      <p></p>
+                    </div>
+                  </div>            
+              </div>
+              <table className="hidden min-w-full rounded-md text-gray-900 md:table">
+                <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">
+                  <tr>
+                    <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                      Name
+                    </th>
+                    <th scope="col" className="px-3 py-5 font-medium">
+                      Email
+                    </th>
+                    <th scope="col" className="px-3 py-5 font-medium">
+                      Total Invoices
+                    </th>
+                    <th scope="col" className="px-3 py-5 font-medium">
+                      Total Pending
+                    </th>
+                    <th scope="col" className="px-4 py-5 font-medium">
+                      Total Paid
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody className="divide-y divide-gray-200 text-gray-900">
+                
+                  <TableRowSkeleton/>
+                  <TableRowSkeleton/>
+                  <TableRowSkeleton/>
+                  <TableRowSkeleton/>
+                  <TableRowSkeleton/>
+                
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+  );
+}
+
+

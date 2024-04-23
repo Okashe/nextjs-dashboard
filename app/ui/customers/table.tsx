@@ -5,18 +5,33 @@ import {
   CustomersTableType,
   FormattedCustomersTable,
 } from '@/app/lib/definitions';
+import { CreateCustomer } from '../invoices/buttons';
+import { fetchFilteredCustomers } from '@/app/lib/data';
+
+
+
 
 export default async function CustomersTable({
-  customers,
+  query,
+  currentPage
 }: {
-  customers: FormattedCustomersTable[];
+  // customers: FormattedCustomersTable[];
+  query: string,
+  currentPage: number
 }) {
+  
+  const customers = await fetchFilteredCustomers(query, currentPage);
+
   return (
     <div className="w-full">
       <h1 className={`${inter.className} mb-8 text-xl md:text-2xl`}>
         Customers
       </h1>
-      <Search placeholder="Search customers..." />
+    
+      <div className='flex gap-2'>
+        <Search placeholder="Search customers..." />
+        <CreateCustomer/>
+      </div>
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
@@ -24,9 +39,9 @@ export default async function CustomersTable({
               <div className="md:hidden">
                 {customers?.map((customer) => (
                   <div
-                    key={customer.id}
-                    className="mb-2 w-full rounded-md bg-white p-4"
-                  >
+                      key={customer.id}
+                      className="mb-2 w-full rounded-md bg-white p-4"
+                    >
                     <div className="flex items-center justify-between border-b pb-4">
                       <div>
                         <div className="mb-2 flex items-center">
@@ -84,7 +99,7 @@ export default async function CustomersTable({
                 </thead>
 
                 <tbody className="divide-y divide-gray-200 text-gray-900">
-                  {customers.map((customer) => (
+                  {customers?.map((customer) => (
                     <tr key={customer.id} className="group">
                       <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
                         <div className="flex items-center gap-3">
