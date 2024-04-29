@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
+import { randomUUID } from 'crypto';
 
 
 const FormSchema = z.object({
@@ -22,6 +23,18 @@ const FormSchema = z.object({
 
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
 
+const CustomerFormSchema = z.object({
+  id: z.string({}),
+  name: z.string({invalid_type_error:'Please enter first name'}),
+  email:z.string({invalid_type_error:'Please enter email'}),
+  image_url:z.string({invalid_type_error:'Please upload an image in png, jpg, jpeg format only'}),
+  date:z.string()
+});
+
+const CreateCustomer = CustomerFormSchema.omit({id: true, date:true})
+
+
+
 // This is temporary until @types/react-dom is updated
 export type State = {
   errors?: {
@@ -31,6 +44,50 @@ export type State = {
   };
   message?: string | null;
 };
+
+export type CustomerState ={
+  errors? : {
+    id? : string[];
+    nameL? : string[];
+    email?:string[];
+    image_url?:string[];
+    
+  }
+}
+
+export async function createCustomer(prevState: CustomerState, formData: FormData) {
+  // Validate form fields using Zod
+  const validatedFields = CreateCustomer.safeParse({
+    customerId: formData.get('id'),
+    firstName: formData.get('firstName'),
+    lastName: formData.get('lastName'),
+    email: formData.get('email'),
+    image: formData.get('image')
+  });
+  // If form validation fails, return errors early. Otherwise, continue.
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Create Customer.',
+    };
+  }
+
+  const { name, email, image_url  } = validatedFields.data
+
+   const id = randomUUID()
+  try {
+    await sql`
+        INSERT INTO customers (id, name, email, image_url)
+        VALUES (${id}, ${name}, ${email}, ${image_url})
+        `;
+  } catch (error) {
+    return {
+      message: 'Database Error: Failed to Create Customer.',
+    };
+  }
+ 
+}
+
 
 export async function createInvoice(prevState: State, formData: FormData) {
   // Validate form fields using Zod
@@ -122,6 +179,7 @@ export async function deleteInvoice(id: string) {
 
   redirect('/dashboard/invoices');
 }
+
 
 export async function authenticate(
   prevState: string | undefined,

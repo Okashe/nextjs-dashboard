@@ -257,3 +257,13 @@ export async function getUser(email: string) {
     throw new Error('Failed to fetch user.');
   }
 }
+export async function fetchUsername(email: string){
+     try{
+        const username = await sql`SELECT SUBSTRING(${email}, POSITION ('@' IN ${email})+1)`;
+        return username.rows[0] as User;
+        console.log(username.rows[0] +'username got from email')
+     }catch(error){
+      console.error('Failed to fetch user', error)
+      throw new Error('Failed to fetch user.')
+     }
+}

@@ -5,7 +5,7 @@ import {
   CustomersTableType,
   FormattedCustomersTable,
 } from '@/app/lib/definitions';
-import { CreateCustomer } from '../invoices/buttons';
+import { CreateCustomer } from './buttons';
 import { fetchFilteredCustomers } from '@/app/lib/data';
 
 
